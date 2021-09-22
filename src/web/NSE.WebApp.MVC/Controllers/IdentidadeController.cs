@@ -6,13 +6,12 @@ using NSE.WebApp.MVC.Services;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NSE.WebApp.MVC.Controllers
 {
-    public class IdentidadeController : Controller
+    public class IdentidadeController : MainController
     {
         private readonly IAutenticacaoService _autenticacaoService;
 
@@ -37,7 +36,7 @@ namespace NSE.WebApp.MVC.Controllers
             //API - Registro
             var resposta = await _autenticacaoService.Registro(usuarioRegistro);
 
-            //if (false) return View(usuarioRegistro);
+            if (ResponsePossuiErros(resposta.ResponseResult)) return View(usuarioRegistro);
 
             //Realizar Login
             await RealizarLogin(resposta);
@@ -62,7 +61,7 @@ namespace NSE.WebApp.MVC.Controllers
             //API - Login
             var resposta = await _autenticacaoService.Login(usuarioLogin);
 
-            //if (false) return View(usuarioLogin);
+            if (ResponsePossuiErros(resposta.ResponseResult)) return View(usuarioLogin);
 
             //Realizar Login
             await RealizarLogin(resposta);
